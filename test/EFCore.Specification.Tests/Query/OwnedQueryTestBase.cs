@@ -400,7 +400,8 @@ namespace Microsoft.EntityFrameworkCore.Query
         public virtual async Task Preserve_includes_when_applying_skip_take_after_anonymous_type_select(bool async)
         {
             using var context = CreateContext();
-            var expectedQuery = QueryAsserter.ExpectedData.Set<OwnedPerson>().OrderBy(p => p.Id);
+            var expectedQuery = Fixture.GetExpectedData(context, applyFilters: false).Set<OwnedPerson>().OrderBy(p => p.Id);
+            //var expectedQuery = QueryAsserter.ExpectedData.Set<OwnedPerson>().OrderBy(p => p.Id);
             var expectedResult = expectedQuery.Select(q => new { Query = q, Count = expectedQuery.Count() }).Skip(0).Take(100).ToList();
 
             var baseQuery = context.Set<OwnedPerson>().OrderBy(p => p.Id);
@@ -848,7 +849,7 @@ namespace Microsoft.EntityFrameworkCore.Query
                 ? await collectionQuery.ToListAsync()
                 : collectionQuery.ToList();
 
-            var expectedOrders = Fixture.GetExpectedData().Set<OwnedPerson>().Single(e => e.Id == 1).Orders;
+            var expectedOrders = Fixture.GetExpectedData(context, applyFilters: false).Set<OwnedPerson>().Single(e => e.Id == 1).Orders;
 
             Assert.Equal(expectedOrders.Count, actualOrders.Count);
             foreach (var element in expectedOrders.OrderBy(ee => ee.Id).Zip(actualOrders.OrderBy(aa => aa.Id), (e, a) => new { e, a }))
@@ -908,8 +909,20 @@ namespace Microsoft.EntityFrameworkCore.Query
             public Func<DbContext> GetContextCreator()
                 => () => CreateContext();
 
-            public ISetSource GetExpectedData()
-                => new OwnedQueryData();
+            private readonly Dictionary<bool, ISetSource> _expectedDataCache = new Dictionary<bool, ISetSource>();
+
+            public virtual ISetSource GetExpectedData(DbContext context, bool applyFilters)
+            {
+                if (_expectedDataCache.TryGetValue(applyFilters, out var cachedResult))
+                {
+                    return cachedResult;
+                }
+
+                var expectedData = new OwnedQueryData();
+                _expectedDataCache[applyFilters] = expectedData;
+
+                return expectedData;
+            }
 
             public IReadOnlyDictionary<Type, object> GetEntitySorters()
                 => new Dictionary<Type, Func<object, object>>

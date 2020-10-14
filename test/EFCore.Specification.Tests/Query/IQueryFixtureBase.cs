@@ -15,7 +15,7 @@ namespace Microsoft.EntityFrameworkCore.Query
         Func<DbContext, ISetSource> GetSetSourceCreator()
             => context => new DefaultSetSource(context);
 
-        ISetSource GetExpectedData();
+        ISetSource GetExpectedData(DbContext context, bool applyFilters);
 
         IReadOnlyDictionary<Type, object> GetEntitySorters();
 

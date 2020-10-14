@@ -12,6 +12,8 @@ namespace Microsoft.EntityFrameworkCore.Query
 {
     public abstract class InheritanceQueryFixtureBase : SharedStoreFixtureBase<InheritanceContext>, IQueryFixtureBase
     {
+        private readonly Dictionary<bool, ISetSource> _expectedDataCache = new Dictionary<bool, ISetSource>();
+
         protected override string StoreName { get; } = "InheritanceTest";
 
         protected virtual bool EnableFilters
@@ -26,8 +28,25 @@ namespace Microsoft.EntityFrameworkCore.Query
         public Func<DbContext> GetContextCreator()
             => () => CreateContext();
 
-        public ISetSource GetExpectedData()
-            => new InheritanceData();
+        public virtual ISetSource GetExpectedData(DbContext context, bool applyFilters)
+        {
+            if (_expectedDataCache.TryGetValue(applyFilters, out var cachedResult))
+            {
+                return cachedResult;
+            }
+
+            var expectedData = new InheritanceData();
+            if (applyFilters && EnableFilters)
+            {
+                var animals = expectedData.Animals.Where(a => a.CountryId == 1).ToList();
+                var animalQueries = expectedData.AnimalQueries.Where(a => a.CountryId == 1).ToList();
+                expectedData = new InheritanceData(animals, animalQueries, expectedData.Countries, expectedData.Drinks, expectedData.Plants);
+            }
+
+            _expectedDataCache[applyFilters] = expectedData;
+
+            return expectedData;
+        }
 
         public IReadOnlyDictionary<Type, object> GetEntitySorters()
             => new Dictionary<Type, Func<object, object>>

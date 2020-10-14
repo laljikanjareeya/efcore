@@ -2,6 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -15,8 +16,20 @@ namespace Microsoft.EntityFrameworkCore.Query
     {
         protected override string StoreName { get; } = "ComplexNavigationsOwned";
 
-        public override ISetSource GetExpectedData()
-            => new ComplexNavigationsWeakData();
+        private readonly Dictionary<bool, ISetSource> _expectedDataCache = new Dictionary<bool, ISetSource>();
+
+        public override ISetSource GetExpectedData(DbContext context, bool applyFilters)
+        {
+            if (_expectedDataCache.TryGetValue(applyFilters, out var cachedResult))
+            {
+                return cachedResult;
+            }
+
+            var expectedData = new ComplexNavigationsWeakData();
+            _expectedDataCache[applyFilters] = expectedData;
+
+            return expectedData;
+        }
 
         Func<DbContext, ISetSource> IQueryFixtureBase.GetSetSourceCreator()
             => context => new ComplexNavigationsWeakSetExtractor(context);

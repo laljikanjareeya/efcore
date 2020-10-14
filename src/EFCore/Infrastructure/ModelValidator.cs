@@ -1018,6 +1018,18 @@ namespace Microsoft.EntityFrameworkCore.Infrastructure
                     }
                 }
 
+
+                if (entityType.ClrType.Name.Contains("OrderDetail"))
+                {
+                    var n = entityType.GetNavigations().First();
+                    var a1 = n.IsCollection;
+                    var a2 = n.ForeignKey.IsRequired;
+                    var a3 = n.IsOnDependent;
+                    var a4 = n.ForeignKey.PrincipalEntityType.GetQueryFilter() != null;
+                    var a5 = n.ForeignKey.DeclaringEntityType.GetQueryFilter() == null;
+
+                }
+
                 var requiredNavigationWithQueryFilter = entityType.GetNavigations()
                     .Where(
                         n => !n.IsCollection

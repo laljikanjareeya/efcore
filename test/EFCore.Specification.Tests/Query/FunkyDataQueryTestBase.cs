@@ -546,8 +546,20 @@ namespace Microsoft.EntityFrameworkCore.Query
             public Func<DbContext> GetContextCreator()
                 => () => CreateContext();
 
-            public ISetSource GetExpectedData()
-                => new FunkyDataData();
+            private readonly Dictionary<bool, ISetSource> _expectedDataCache = new Dictionary<bool, ISetSource>();
+
+            public virtual ISetSource GetExpectedData(DbContext context, bool applyFilters)
+            {
+                if (_expectedDataCache.TryGetValue(applyFilters, out var cachedResult))
+                {
+                    return cachedResult;
+                }
+
+                var expectedData = new FunkyDataData();
+                _expectedDataCache[applyFilters] = expectedData;
+
+                return expectedData;
+            }
 
             public IReadOnlyDictionary<Type, object> GetEntitySorters()
                 => new Dictionary<Type, Func<object, object>> { { typeof(FunkyCustomer), e => ((FunkyCustomer)e)?.Id } }
