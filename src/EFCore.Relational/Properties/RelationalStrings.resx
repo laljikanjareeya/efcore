@@ -169,7 +169,7 @@
     <value>There is no entity type mapped to the table '{table}' which is used in a data operation. Either add the corresponding entity type to the model, or specify the column types in the data operation.</value>
   </data>
   <data name="DbFunctionExpressionIsNotMethodCall" xml:space="preserve">
-    <value>The provided DbFunction expression '{expression}' is invalid. The expression must be a lambda expression containing a single method call to the target static method. Default values can be provided as arguments if required, e.g. () =&gt; SomeClass.SomeMethod(null, 0)</value>
+    <value>The provided DbFunction expression '{expression}' is invalid. The expression must be a lambda expression containing a single method call to the target static method. Default values can be provided as arguments if required, e.g. '() =&gt; SomeClass.SomeMethod(null, 0)'</value>
   </data>
   <data name="DbFunctionGenericMethodNotSupported" xml:space="preserve">
     <value>The DbFunction '{function}' is generic. Mapping generic methods as a DbFunction is not supported.</value>

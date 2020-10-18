@@ -147,7 +147,7 @@ namespace Microsoft.EntityFrameworkCore.Diagnostics
                 table);
 
         /// <summary>
-        ///     The provided DbFunction expression '{expression}' is invalid. The expression must be a lambda expression containing a single method call to the target static method. Default values can be provided as arguments if required, e.g. () =&gt; SomeClass.SomeMethod(null, 0)
+        ///     The provided DbFunction expression '{expression}' is invalid. The expression must be a lambda expression containing a single method call to the target static method. Default values can be provided as arguments if required, e.g. '() =&gt; SomeClass.SomeMethod(null, 0)'
         /// </summary>
         public static string DbFunctionExpressionIsNotMethodCall([CanBeNull] object expression)
             => string.Format(
