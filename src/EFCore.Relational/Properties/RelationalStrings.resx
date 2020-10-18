@@ -368,7 +368,7 @@
     <value>The entity type '{entityType}' is mapped to the DbFunction named '{functionName}', but is derived from '{baseEntityType}'. Derived entity types cannot be mapped to a function.</value>
   </data>
   <data name="InvalidMappedFunctionUnmatchedReturn" xml:space="preserve">
-    <value>The entity type '{entityType}' is mapped to the DbFunction named '{functionName}' with return type '{returnType}'. Ensure that the mapped function returns `IQueryable&lt;{clrType}&gt;`.</value>
+    <value>The entity type '{entityType}' is mapped to the DbFunction named '{functionName}' with return type '{returnType}'. Ensure that the mapped function returns 'IQueryable&lt;{clrType}&gt;'.</value>
   </data>
   <data name="InvalidMappedFunctionWithParameters" xml:space="preserve">
     <value>The entity type '{entityType}' is mapped to the DbFunction named '{functionName}' with parameters {parameters}. Ensure that the mapped function doesn't have any parameters.</value>
