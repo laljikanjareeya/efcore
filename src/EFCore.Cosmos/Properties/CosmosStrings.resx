@@ -202,7 +202,7 @@
     <value>The partition key property '{property1}' on '{entityType1}' is mapped as '{storeName1}', but the partition key property '{property2}' on '{entityType2}' is mapped as '{storeName2}'. All partition key properties need to be mapped to the same store property.</value>
   </data>
   <data name="ResourceIdMissing" xml:space="preserve">
-    <value>Unable to execute a ReadItem query since the 'id' value is missing and cannot be generated.</value>
+    <value>Unable to execute a 'ReadItem' query since the 'id' value is missing and cannot be generated.</value>
   </data>
   <data name="ReverseAfterSkipTakeNotSupported" xml:space="preserve">
     <value>Reversing the ordering is not supported when limit or offset are already applied.</value>
