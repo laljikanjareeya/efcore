@@ -187,7 +187,7 @@
     <value>The entity of type '{entityType}' is mapped as part of the document mapped to '{missingEntityType}', but there is no tracked entity of this type with the key value '{keyValue}'.</value>
   </data>
   <data name="ParitionKeyMissing" xml:space="preserve">
-    <value>Unable to execute a ReadItem query since the partition key value is missing. Consider using the 'WithPartitionKey' method on the query to specify partition key to use.</value>
+    <value>Unable to execute a 'ReadItem' query since the partition key value is missing. Consider using the 'WithPartitionKey' method on the query to specify partition key to use.</value>
   </data>
   <data name="PartitionKeyMismatch" xml:space="preserve">
     <value>The partition key specified in the 'WithPartitionKey' call '{paritionKey1}' and the partition key specified in the 'Where' predicate '{paritionKey2}' must be identical. Remove one of them.</value>
